@@ -3,6 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
 import { DBConfigModule } from './providers/database/config.module';
 import { DBConfigService } from './providers/database/config.services';
+import { UsersModule } from './users/users.module';
+import { RouterModule } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -20,6 +22,15 @@ import { DBConfigService } from './providers/database/config.services';
         return options;
       },
     }),
+
+    RouterModule.register([
+      {
+        path: 'users',
+        module: UsersModule,
+      },
+    ]),
+
+    UsersModule,
   ],
   controllers: [],
   providers: [],
