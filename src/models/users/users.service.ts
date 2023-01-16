@@ -9,6 +9,11 @@ import * as bcrypt from 'bcrypt';
 export class UsersService {
   constructor(@InjectModel('Users') private usersModel: Model<IUsers>) {}
 
+  /**
+   * User creation service
+   * @param createUserDto object payload
+   * @returns user object
+   */
   async create(createUserDto: CreateUserDto): Promise<IUsers> {
     const newUser = await new this.usersModel(createUserDto);
     const salt = await bcrypt.genSalt();
@@ -30,5 +35,16 @@ export class UsersService {
     if (user.length <= 0) return false;
 
     return true;
+  }
+
+  /**
+   * Find user service
+   * @param id string ObjectId
+   * @returns user object
+   */
+  async findOne(id: string) {
+    const user = await this.usersModel.findById(id);
+
+    return user;
   }
 }

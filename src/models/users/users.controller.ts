@@ -2,7 +2,10 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Get,
   HttpStatus,
+  NotFoundException,
+  Param,
   Post,
   Res,
   ValidationPipe,
@@ -14,6 +17,11 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  /**
+   * Create user controller
+   * @param createUserDto user payload
+   * @returns user data
+   */
   @Post()
   async createUser(
     @Res() response,
@@ -37,7 +45,27 @@ export class UsersController {
     return response.status(HttpStatus.CREATED).json({
       status: HttpStatus.CREATED,
       message: 'Registered successfully',
-      data: user,
+      data: { user },
+    });
+  }
+
+  /**
+   * Find user controller
+   * @param id user ObjectId
+   * @returns user data
+   */
+  @Get(':id')
+  async findUser(@Res() response, @Param('id') id: string) {
+    const user = await this.usersService.findOne(id);
+
+    if (!user) {
+      throw new NotFoundException(`User does not exist`);
+    }
+
+    return response.status(HttpStatus.OK).json({
+      status: HttpStatus.OK,
+      message: 'Successfully retrieved',
+      data: { user },
     });
   }
 }
