@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
-import { DBConfigModule } from './providers/database/config.module';
-import { DBConfigService } from './providers/database/config.services';
-import { UsersModule } from './users/users.module';
+import { DBConfigModule } from './config/database/config.module';
+import { DBConfigService } from './config/database/config.services';
+import { UsersModule } from './models/users/users.module';
 import { RouterModule } from '@nestjs/core';
 
 @Module({
