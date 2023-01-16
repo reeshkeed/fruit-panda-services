@@ -4,9 +4,8 @@ import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
 import { DBConfigModule } from './config/database/config.module';
 import { DBConfigService } from './config/database/config.services';
 import { UsersModule } from './models/users/users.module';
-import { APP_FILTER, RouterModule } from '@nestjs/core';
+import { RouterModule } from '@nestjs/core';
 import { FruitsModule } from './models/fruits/fruits.module';
-import { HttpExceptionFilter } from './common/exceptions/http-exception.filter';
 
 @Module({
   imports: [
@@ -30,18 +29,16 @@ import { HttpExceptionFilter } from './common/exceptions/http-exception.filter';
         path: 'users',
         module: UsersModule,
       },
+      {
+        path: 'fruits',
+        module: FruitsModule,
+      },
     ]),
 
     UsersModule,
     FruitsModule,
   ],
   controllers: [],
-  providers: [
-    // HTTP Exception filter
-    {
-      provide: APP_FILTER,
-      useClass: HttpExceptionFilter,
-    },
-  ],
+  providers: [],
 })
 export class AppModule {}

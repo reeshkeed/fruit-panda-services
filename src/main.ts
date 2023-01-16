@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { DocumentBuilder } from '@nestjs/swagger';
 import { SwaggerModule } from '@nestjs/swagger/dist';
 import { Logger } from '@nestjs/common';
+import { HttpExceptionFilter } from './common/exceptions/http-exception.filter';
 
 async function bootstrap() {
   const globalPrefix = process.env.APP_GLOBAL_PREFIX || 'api';
@@ -10,6 +11,9 @@ async function bootstrap() {
   const port = process.env.APP_PORT || 3333;
 
   const app = await NestFactory.create(AppModule, { cors: true });
+
+  // Exception filter
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   // Set api prefix
   app.setGlobalPrefix(globalPrefix);
