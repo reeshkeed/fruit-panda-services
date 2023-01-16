@@ -7,11 +7,14 @@ import {
   NotFoundException,
   Param,
   Post,
+  Put,
   Res,
   ValidationPipe,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
+import { response } from 'express';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller()
 export class UsersController {
@@ -65,6 +68,45 @@ export class UsersController {
     return response.status(HttpStatus.OK).json({
       status: HttpStatus.OK,
       message: 'Successfully retrieved',
+      data: { user },
+    });
+  }
+
+  /**
+   * Find by id & update user data controller
+   * @param response data
+   * @param id user ObjectId
+   * @param updateUserDto data payload
+   * @returns updated user data
+   */
+  @Put(':id')
+  async findUserAndUpdate(
+    @Res() response,
+    @Param('id') id: string,
+    @Body(new ValidationPipe()) updateUserDto: UpdateUserDto,
+  ) {
+    /**
+     * First verify username if already exist
+     * if findUsername service return true
+     * throw ConflictException
+     */
+    const isUsernameTaken = await this.usersService.findUsername(
+      updateUserDto.username,
+    );
+
+    if (isUsernameTaken) {
+      throw new BadRequestException('Username is already taken');
+    }
+
+    const user = await this.usersService.update(id, updateUserDto);
+
+    if (!user) {
+      throw new NotFoundException('User does not exist');
+    }
+
+    return response.status(HttpStatus.OK).json({
+      status: HttpStatus.OK,
+      message: 'Successfully updated',
       data: { user },
     });
   }
