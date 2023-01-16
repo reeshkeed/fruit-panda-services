@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { IFruits } from './interface/fruits.interface';
 import { CreateFruitDto } from './dto/create-fruit.dto';
+import { UpdateFruitDto } from './dto/update-fruit.dto';
 
 @Injectable()
 export class FruitsService {
@@ -26,6 +27,21 @@ export class FruitsService {
    */
   async findOne(id: string) {
     const fruit = await this.fruitsModel.findById(id);
+
+    return fruit;
+  }
+
+  /**
+   * Find by id & update fruit data service
+   * @param id string ObjectId
+   * @param updateFruitDto payload data
+   * @returns fruit object
+   */
+  async update(id: string, updateFruitDto: UpdateFruitDto) {
+    // set new: true to return data after update applied
+    const fruit = await this.fruitsModel.findByIdAndUpdate(id, updateFruitDto, {
+      new: true,
+    });
 
     return fruit;
   }
