@@ -13,6 +13,7 @@ import { UsersSchema } from './schema/users.schema';
       },
     ]),
   ],
+  exports: [UsersService],
   providers: [UsersService],
   controllers: [UsersController],
 })
