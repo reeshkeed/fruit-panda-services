@@ -10,9 +10,6 @@ export class Users {
 
   @Prop()
   password: string;
-
-  @Prop()
-  cartId: string;
 }
 
 export const UsersSchema = SchemaFactory.createForClass(Users);

@@ -28,8 +28,4 @@ export class CreateUserDto {
   @IsNotEmpty()
   @ApiProperty({ example: 'qwer123' })
   password: string;
-
-  @IsString()
-  @ApiProperty({ example: '' })
-  cartId: string;
 }

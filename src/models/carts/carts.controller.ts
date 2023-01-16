@@ -1,22 +1,21 @@
 import {
-  BadRequestException,
   Body,
+  ConflictException,
   Controller,
+  Get,
   HttpStatus,
+  NotFoundException,
+  Param,
   Post,
   Res,
   ValidationPipe,
 } from '@nestjs/common';
 import { CartsService } from './carts.service';
 import { CreateCartDto } from './dto/create-cart.dto';
-import { UsersService } from '../users/users.service';
 
 @Controller()
 export class CartsController {
-  constructor(
-    private readonly cartsService: CartsService,
-    private readonly usersService: UsersService,
-  ) {}
+  constructor(private readonly cartsService: CartsService) {}
 
   /**
    * Create user controller
@@ -29,14 +28,13 @@ export class CartsController {
     @Body(new ValidationPipe()) createCartDto: CreateCartDto,
   ) {
     /**
-     * First verify user if exist
-     * if isUserExist is empty
-     * throw BadRequestException
+     * Check if userId has existing cart
+     * if getCart returns true throw an error
      */
-    const isUserExist = await this.usersService.findOne(createCartDto.userId);
+    const hasCart = await this.cartsService.getCart(createCartDto.userId);
 
-    if (!isUserExist) {
-      throw new BadRequestException('User does not exist');
+    if (hasCart.length) {
+      throw new ConflictException('User already have an active cart');
     }
 
     const cart = await this.cartsService.create(createCartDto);
@@ -44,6 +42,27 @@ export class CartsController {
     return response.status(HttpStatus.CREATED).json({
       status: HttpStatus.CREATED,
       message: 'Registered successfully',
+      data: { cart },
+    });
+  }
+
+  /**
+   * Get user active cart
+   * @param response data
+   * @param userId user ObjectId
+   * @returns user cart
+   */
+  @Get(':id')
+  async getCart(@Res() response, @Param('id') userId: string) {
+    const cart = await this.cartsService.getCart(userId);
+
+    if (!cart.length) {
+      throw new NotFoundException('Error: CC001 Contact admin');
+    }
+
+    return response.status(HttpStatus.OK).json({
+      status: HttpStatus.OK,
+      message: 'Successfully retrieved',
       data: { cart },
     });
   }

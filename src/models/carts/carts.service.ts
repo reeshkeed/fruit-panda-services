@@ -18,4 +18,15 @@ export class CartsService {
 
     return newCart.save();
   }
+
+  /**
+   * Find cart service
+   * @param id string ObjectId
+   * @returns cart object
+   */
+  async getCart(userId: string) {
+    const cart = await this.cartsModel.find({ userId }).exec();
+
+    return cart;
+  }
 }
