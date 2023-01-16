@@ -5,6 +5,7 @@ import { DBConfigModule } from './config/database/config.module';
 import { DBConfigService } from './config/database/config.services';
 import { UsersModule } from './models/users/users.module';
 import { RouterModule } from '@nestjs/core';
+import { FruitsModule } from './models/fruits/fruits.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { RouterModule } from '@nestjs/core';
     ]),
 
     UsersModule,
+    FruitsModule,
   ],
   controllers: [],
   providers: [],
