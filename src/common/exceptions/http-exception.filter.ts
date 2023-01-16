@@ -30,7 +30,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
         error: {
           path: request.url,
           type: type,
-          message: error.status === 400 ? error.response.message : error,
+          message: error.response.message,
         },
       });
     };

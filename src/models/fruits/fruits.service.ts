@@ -18,4 +18,15 @@ export class FruitsService {
 
     return newFruit.save();
   }
+
+  /**
+   * Find fruit service
+   * @param id string ObjectId
+   * @returns fruit object
+   */
+  async findOne(id: string) {
+    const fruit = await this.fruitsModel.findById(id);
+
+    return fruit;
+  }
 }

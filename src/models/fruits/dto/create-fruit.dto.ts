@@ -20,9 +20,9 @@ export class CreateFruitDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(300)
-  @Matches(/^(?![_.-])(?!.*[_.]{2})[a-zA-Z0-9._-]+(?<![_.])$/, {
+  @Matches(/^[ A-Za-z0-9_@./#&+-]*$/, {
     message:
-      'Description must contain alphanumeric and [._-] special character only.',
+      'Description must contain alphanumeric and [_@./#&+-] special character only.',
   })
   @ApiProperty({
     example: 'Lorem Ipsum dolor sit amet',
