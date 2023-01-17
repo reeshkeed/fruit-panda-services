@@ -31,8 +31,8 @@ export class UsersController {
   ) {
     /**
      * First verify username if already exist
-     * if findUsername service return true
-     * throw ConflictException
+     * if findUsername service return null
+     * throw BadRequestException
      */
     const isUsernameTaken = await this.usersService.findUsername(
       createUserDto.username,
@@ -86,8 +86,8 @@ export class UsersController {
   ) {
     /**
      * First verify username if already exist
-     * if findUsername service return true
-     * throw ConflictException
+     * if findUsername service return null
+     * throw BadRequestException
      */
     const isUsernameTaken = await this.usersService.findUsername(
       updateUserDto.username,

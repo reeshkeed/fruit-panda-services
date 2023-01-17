@@ -28,14 +28,12 @@ export class UsersService {
   /**
    * Find username if exist
    * @param username string
-   * @returns false = not exist, true = exist
+   * @returns user object or null
    */
-  async findUsername(username: string): Promise<boolean> {
-    const user = await this.usersModel.find({ username }).exec();
+  async findUsername(username: string): Promise<any> {
+    const user = await this.usersModel.findOne({ username }).exec();
 
-    if (user.length <= 0) return false;
-
-    return true;
+    return user;
   }
 
   /**

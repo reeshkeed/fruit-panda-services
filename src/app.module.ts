@@ -7,6 +7,7 @@ import { UsersModule } from './models/users/users.module';
 import { RouterModule } from '@nestjs/core';
 import { FruitsModule } from './models/fruits/fruits.module';
 import { CartsModule } from './models/carts/carts.module';
+import { AuthModule } from './authentication/auth.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { CartsModule } from './models/carts/carts.module';
     UsersModule,
     FruitsModule,
     CartsModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
