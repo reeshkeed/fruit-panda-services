@@ -15,14 +15,16 @@ export class UsersService {
    * @param createUserDto object payload
    * @returns user object
    */
-  async create(createUserDto: CreateUserDto): Promise<IUsers> {
+  async create(createUserDto: CreateUserDto): Promise<any> {
     const newUser = await new this.usersModel(createUserDto);
     const salt = await bcrypt.genSalt();
 
     // Hash user password
     newUser.password = await bcrypt.hashSync(newUser.password, salt);
 
-    return newUser.save();
+    await newUser.save();
+
+    return this.sanitizeUser(newUser);
   }
 
   /**
@@ -60,5 +62,11 @@ export class UsersService {
     });
 
     return user;
+  }
+
+  sanitizeUser(user: IUsers) {
+    const sanitized = user.toObject();
+    delete sanitized['password'];
+    return sanitized;
   }
 }

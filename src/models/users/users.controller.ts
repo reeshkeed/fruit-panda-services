@@ -6,52 +6,16 @@ import {
   HttpStatus,
   NotFoundException,
   Param,
-  Post,
   Put,
   Res,
   ValidationPipe,
 } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Public } from 'src/common/guards/public.guards';
 
 @Controller()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
-  /**
-   * Create user controller
-   * @param createUserDto user payload
-   * @returns user data
-   */
-  @Public()
-  @Post()
-  async createUser(
-    @Res() response,
-    @Body(new ValidationPipe()) createUserDto: CreateUserDto,
-  ) {
-    /**
-     * First verify username if already exist
-     * if findUsername service return null
-     * throw BadRequestException
-     */
-    const isUsernameTaken = await this.usersService.findUsername(
-      createUserDto.username,
-    );
-
-    if (isUsernameTaken) {
-      throw new BadRequestException('Username is already taken');
-    }
-
-    const user = await this.usersService.create(createUserDto);
-
-    return response.status(HttpStatus.CREATED).json({
-      status: HttpStatus.CREATED,
-      message: 'Registered successfully',
-      data: { user },
-    });
-  }
 
   /**
    * Find user controller
