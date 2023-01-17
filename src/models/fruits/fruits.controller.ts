@@ -13,6 +13,7 @@ import {
 import { FruitsService } from './fruits.service';
 import { CreateFruitDto } from './dto/create-fruit.dto';
 import { UpdateFruitDto } from './dto/update-fruit.dto';
+import { Public } from 'src/common/guards/public.guards';
 
 @Controller()
 export class FruitsController {
@@ -42,6 +43,7 @@ export class FruitsController {
    * @param id fruit ObjectId
    * @returns fruit data
    */
+  @Public()
   @Get(':id')
   async findFruit(@Res() response, @Param('id') id: string) {
     const fruit = await this.fruitsService.findOne(id);

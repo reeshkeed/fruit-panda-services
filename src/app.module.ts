@@ -4,10 +4,11 @@ import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
 import { DBConfigModule } from './config/database/config.module';
 import { DBConfigService } from './config/database/config.services';
 import { UsersModule } from './models/users/users.module';
-import { RouterModule } from '@nestjs/core';
+import { APP_GUARD, RouterModule } from '@nestjs/core';
 import { FruitsModule } from './models/fruits/fruits.module';
 import { CartsModule } from './models/carts/carts.module';
 import { AuthModule } from './authentication/auth.module';
+import { JwtAuthGuard } from './common/guards/jwt-auth.guards';
 
 @Module({
   imports: [
@@ -47,6 +48,11 @@ import { AuthModule } from './authentication/auth.module';
     AuthModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
 })
 export class AppModule {}

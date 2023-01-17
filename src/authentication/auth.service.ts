@@ -1,10 +1,14 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from 'src/models/users/users.service';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private usersService: UsersService,
+    private jwtService: JwtService,
+  ) {}
 
   /**
    * Validate user data if username exist
@@ -27,5 +31,21 @@ export class AuthService {
     }
 
     return null;
+  }
+
+  async login(user: any) {
+    const payload = {
+      _id: user._id,
+      name: user.name,
+      username: user.username,
+    };
+
+    return {
+      status: HttpStatus.OK,
+      message: 'Login success',
+      data: {
+        token: this.jwtService.sign(payload),
+      },
+    };
   }
 }
