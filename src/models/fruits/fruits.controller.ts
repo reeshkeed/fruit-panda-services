@@ -60,6 +60,22 @@ export class FruitsController {
   }
 
   /**
+   * Get all fruit controller
+   * @returns all fruits
+   */
+  @Public()
+  @Get()
+  async getAllFruits(@Res() response) {
+    const fruits = await this.fruitsService.getAll();
+
+    return response.status(HttpStatus.OK).json({
+      status: HttpStatus.OK,
+      message: 'Successfully retrieved',
+      data: { fruits },
+    });
+  }
+
+  /**
    * Find by id & update fruit data controller
    * @param response data
    * @param id fruit ObjectId

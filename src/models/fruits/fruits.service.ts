@@ -32,6 +32,16 @@ export class FruitsService {
   }
 
   /**
+   * Get all fruits list service
+   * @returns all fruits
+   */
+  async getAll() {
+    const fruits = await this.fruitsModel.find();
+
+    return fruits;
+  }
+
+  /**
    * Find by id & update fruit data service
    * @param id string ObjectId
    * @param updateFruitDto payload data
