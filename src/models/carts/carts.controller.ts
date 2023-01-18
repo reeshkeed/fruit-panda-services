@@ -7,11 +7,13 @@ import {
   NotFoundException,
   Param,
   Post,
+  Put,
   Res,
   ValidationPipe,
 } from '@nestjs/common';
 import { CartsService } from './carts.service';
 import { CreateCartDto } from './dto/create-cart.dto';
+import { AddFruitToCartDto } from './dto/add-fruit.dto';
 
 @Controller()
 export class CartsController {
@@ -59,6 +61,27 @@ export class CartsController {
     if (!cart.length) {
       throw new NotFoundException('Error: CC001 Contact admin');
     }
+
+    return response.status(HttpStatus.OK).json({
+      status: HttpStatus.OK,
+      message: 'Successfully retrieved',
+      data: { cart },
+    });
+  }
+
+  /**
+   * Add fruit to cart controller
+   * @param cartId ObjectId
+   * @param addFruitToCartDto add item object
+   * @returns cart data
+   */
+  @Put(':id')
+  async addFruitToCart(
+    @Res() response,
+    @Param('id') cartId: string,
+    @Body(new ValidationPipe()) addFruitToCartDto: AddFruitToCartDto,
+  ) {
+    const cart = await this.cartsService.addItem(cartId, addFruitToCartDto);
 
     return response.status(HttpStatus.OK).json({
       status: HttpStatus.OK,

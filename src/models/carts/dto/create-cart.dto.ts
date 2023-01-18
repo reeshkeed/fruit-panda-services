@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsArray, IsMongoId, IsNotEmpty, IsNumber } from 'class-validator';
+import { ICartsItem } from '../schema/cart-item.schema';
 
 export class CreateCartDto {
   @IsMongoId()
@@ -16,5 +17,5 @@ export class CreateCartDto {
 
   @IsArray()
   @ApiProperty({ example: [] })
-  items: [];
+  items: ICartsItem[];
 }

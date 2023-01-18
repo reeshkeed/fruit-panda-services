@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
 import { IFruits } from './interface/fruits.interface';
 import { CreateFruitDto } from './dto/create-fruit.dto';
 import { UpdateFruitDto } from './dto/update-fruit.dto';
@@ -25,7 +25,7 @@ export class FruitsService {
    * @param id string ObjectId
    * @returns fruit object
    */
-  async findOne(id: string) {
+  async findOne(id: ObjectId) {
     const fruit = await this.fruitsModel.findById(id);
 
     return fruit;

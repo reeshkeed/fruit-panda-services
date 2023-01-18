@@ -13,6 +13,7 @@ import { MongooseModule } from '@nestjs/mongoose';
       },
     ]),
   ],
+  exports: [FruitsService],
   providers: [FruitsService],
   controllers: [FruitsController],
 })

@@ -14,6 +14,7 @@ import { FruitsService } from './fruits.service';
 import { CreateFruitDto } from './dto/create-fruit.dto';
 import { UpdateFruitDto } from './dto/update-fruit.dto';
 import { Public } from 'src/common/guards/public.guards';
+import { ObjectId } from 'mongoose';
 
 @Controller()
 export class FruitsController {
@@ -45,7 +46,7 @@ export class FruitsController {
    */
   @Public()
   @Get(':id')
-  async findFruit(@Res() response, @Param('id') id: string) {
+  async findFruit(@Res() response, @Param('id') id: ObjectId) {
     const fruit = await this.fruitsService.findOne(id);
 
     if (!fruit) {
